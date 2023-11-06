@@ -1,7 +1,10 @@
 import "./style.css";
 import Logo from "../../assets/logo.svg";
+import { useNavigate } from "react-router-dom";
 
 function SignIn() {
+  const navigate = useNavigate();
+
   return (
     <div className="container-signin">
       <img src={Logo} alt="logo" className="logo" />
@@ -17,7 +20,12 @@ function SignIn() {
             tudo num único lugar e em um clique de distância
           </h3>
 
-          <button className="btn-purple btn-big">Cadastre-se</button>
+          <button
+            className="btn-purple btn-big"
+            onClick={() => navigate("sign-up")}
+          >
+            Cadastre-se
+          </button>
         </div>
         <div className="right">
           <form>
