@@ -24,12 +24,12 @@ function SignIn() {
             <h2>Login</h2>
 
             <div className="container-inputs">
-              <label>Email</label>
+              <label htmlFor="email">Email</label>
               <input type="text" name="email" />
             </div>
 
             <div className="container-inputs">
-              <label>Senha</label>
+              <label htmlFor="password">Senha</label>
               <input type="password" name="password" />
             </div>
 
