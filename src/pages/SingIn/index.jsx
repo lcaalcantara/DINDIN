@@ -5,6 +5,11 @@ import { useNavigate } from "react-router-dom";
 function SignIn() {
   const navigate = useNavigate();
 
+  function handleSubmit(event) {
+    event.preventDefault();
+    navigate("/main");
+  }
+
   return (
     <div className="container-signin">
       <img src={Logo} alt="logo" className="logo" />
@@ -28,7 +33,7 @@ function SignIn() {
           </button>
         </div>
         <div className="right">
-          <form>
+          <form onSubmit={handleSubmit}>
             <h2>Login</h2>
 
             <div className="container-inputs">
