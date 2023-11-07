@@ -5,6 +5,7 @@ import Resume from "../../components/Resume";
 import ProfileModal from "../../components/ProfileModal";
 import { useState } from "react";
 import AddTransactionModal from "../../components/AddTransactionModal";
+import Filter from "../../components/Filter";
 
 function Main() {
   const [openModalProfile, setOpenModalProfile] = useState(false)
@@ -18,7 +19,7 @@ function Main() {
 
       <section>
         <div className="width-limit">
-          <button>Filtros</button>
+          <Filter />
           <div className="container-data">
             <Table />
             <div className="container-right">
