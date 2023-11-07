@@ -30,10 +30,17 @@
     gap: 32px;
 }
 
+.container-left {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 .container-right {
     display: flex;
     flex-direction: column;
     width: 260px;
+    margin-top: 57px;
 }
 
 .container-right button {
