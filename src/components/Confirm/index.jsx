@@ -11,13 +11,13 @@ function Confirm({ open, handleClose, handleConfirm }) {
                     <div className='container-buttons'>
                         <button
                             onClick={handleConfirm}
-                            className='btn-xs btn-red'>
+                            className='btn-xs btn-blue'>
                             Sim
                         </button>
 
                         <button
                             onClick={handleClose}
-                            className='btn-xs btn-blue'>
+                            className='btn-xs btn-red'>
                             Não
                         </button>
 

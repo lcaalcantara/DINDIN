@@ -18,7 +18,7 @@ function SignUp() {
 
           <div className="container-inputs">
             <label htmlFor="email">Email</label>
-            <input type="text" name="email" />
+            <input type="email" name="email" />
           </div>
 
           <div className="container-inputs">
