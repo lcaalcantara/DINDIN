@@ -26,7 +26,7 @@ function SignIn() {
           </h3>
 
           <button
-            className="btn-purple btn-big"
+            className="btn-purple btn-l"
             onClick={() => navigate("sign-up")}
           >
             Cadastre-se
@@ -46,7 +46,7 @@ function SignIn() {
               <input type="password" name="password" />
             </div>
 
-            <button className="btn-purple btn-big">Entrar</button>
+            <button className="btn-purple btn-l">Entrar</button>
           </form>
         </div>
       </div>

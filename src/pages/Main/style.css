@@ -29,3 +29,14 @@
     margin-top: 26px;
     gap: 32px;
 }
+
+.container-right {
+    display: flex;
+    flex-direction: column;
+    width: 260px;
+}
+
+.container-right button {
+    margin-top: 16px;
+    width: auto;
+}

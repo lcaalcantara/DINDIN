@@ -15,16 +15,16 @@ button {
     padding: 0 14px;
 }
 
-.btn-extra-small {
+.btn-xs {
     height: 38px;
 
 }
 
-.btn-small {
+.btn-s {
     height: 42px;
 }
 
-.btn-big {
+.btn-l {
     height: 48px;
 }
 

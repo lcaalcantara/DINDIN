@@ -31,7 +31,7 @@ function SignUp() {
             <input type="password" name="confirm-password" />
           </div>
 
-          <button className="btn-purple btn-big">Cadastrar</button>
+          <button className="btn-purple btn-l">Cadastrar</button>
           <Link to="/">Já tem cadastro? Clique aqui</Link>
         </form>
       </div>

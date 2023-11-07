@@ -13,7 +13,10 @@ function Main() {
           <button>Filtros</button>
           <div className="container-data">
             <Table />
-            <Resume />
+            <div className="container-right">
+              <Resume />
+              <button className="btn-purple btn-s">Adicionar Registro</button>
+            </div>
           </div>
         </div>
       </section>
