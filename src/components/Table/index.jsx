@@ -5,7 +5,7 @@ import ArrowDown from "../../assets/arrow-down.svg";
 import ArrowUp from "../../assets/arrow-up.svg";
 import { useState } from "react";
 import Confirm from "../Confirm";
-import { formateToDate, formateToWeek, formatToBRL } from "../../utils/formatter";
+import { formatToDate, formatToWeek, formatToBRL } from "../../utils/formatter";
 
 function Table({ transactions }) {
   const [asc, setAsc] = useState(true);
@@ -37,8 +37,8 @@ function Table({ transactions }) {
       <div className="table-body">
         {transactions.map((transact) => (
           <div className="table-row" key={transact.id}>
-            <strong className="table-column-s content-date">{formateToDate(transact.data)}</strong>
-            <span className="table-column-m">{formateToWeek(transact.data)}</span>
+            <strong className="table-column-s content-date">{formatToDate(transact.data)}</strong>
+            <span className="table-column-m">{formatToWeek(transact.data)}</span>
             <span className="table-column-l">{transact.descricao}</span>
             <span className="table-column-s">{transact.categoria_nome}</span>
             <strong

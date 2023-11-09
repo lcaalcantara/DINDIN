@@ -5,13 +5,13 @@ export function capitalize(word) {
     return word[0].toUpperCase() + word.slice(1, word.length)
 }
 
-export function formateToDate(date) {
+export function formatToDate(date) {
     const generatedDate = new Date(date);
 
     return format(generatedDate, 'dd/MM/yyyy');
 }
 
-export function formateToWeek(date) {
+export function formatToWeek(date) {
     const generatedDate = new Date(date);
 
     const weekDay = capitalize(format(generatedDate, 'eee', { locale: ptBR }))
