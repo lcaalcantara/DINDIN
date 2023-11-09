@@ -1,14 +1,12 @@
-import Header from "../../components/Header";
-import Table from "../../components/Table";
-import Resume from "../../components/Resume";
-import Filter from "../../components/Filter";
-import AddTransactionModal from "../../components/AddTransactionModal";
-import ProfileModal from "../../components/ProfileModal";
 import { useEffect, useState } from "react";
+import AddTransactionModal from "../../components/AddTransactionModal";
+import Filter from "../../components/Filter";
+import Header from "../../components/Header";
+import ProfileModal from "../../components/ProfileModal";
+import Resume from "../../components/Resume";
+import Table from "../../components/Table";
+import { loadStatement, loadTransactions } from "../../utils/requests";
 import "./style.css";
-import api from '../../services/api';
-import { getItem } from "../../utils/storage";
-import { formatToBRL } from "../../utils/formatter";
 
 function Main() {
   const [openModalProfile, setOpenModalProfile] = useState(false);
@@ -20,47 +18,22 @@ function Main() {
     balance: 0
   }]);
 
-  const token = getItem('token')
-
-  async function loadTransactions() {
-    try {
-      const response = await api.get('/transaction', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-
-      setTransactions([...response.data]);
-    } catch (error) {
-      console.log(error.response);
-    }
-  }
-
-  async function loadStatement() {
-    try {
-      const response = await api.get('/transaction/statement', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-
-      const { entrada, saida } = response.data
-
-      setStatement({
-        inflow: formatToBRL(entrada),
-        outflow: formatToBRL(saida),
-        balance: formatToBRL(entrada - saida)
-      });
-
-    } catch (error) {
-      console.log(error.response);
-    }
-  }
-
   useEffect(() => {
-    loadTransactions()
-    loadStatement()
-  }, [])
+    async function listTransactions() {
+      const allTransactions = await loadTransactions();
+
+      setTransactions([...allTransactions]);
+    }
+
+    async function listStatement() {
+      const statement = await loadStatement();
+
+      setStatement(statement);
+    }
+
+    listTransactions();
+    listStatement();
+  }, [transactions])
 
   return (
     <div className="container-main">
@@ -80,6 +53,7 @@ function Main() {
             <div className="container-right">
               <Resume
                 statement={statement}
+                transactions={transactions}
               />
               <button
                 className="btn-purple btn-s"
@@ -95,6 +69,7 @@ function Main() {
       <AddTransactionModal
         open={openModalAddTransaction}
         handleClose={() => setOpenModalAddTransaction(false)}
+        setTransactions={setTransactions}
       />
 
       <ProfileModal
