@@ -50,7 +50,7 @@ function AddTransactionModal({ open, handleClose }) {
 
                             <div className='container-inputs'>
                                 <label htmlFor="category">Categoria</label>
-                                <select>
+                                <select name='category'>
                                     <option>Categoria</option>
                                 </select>
 
