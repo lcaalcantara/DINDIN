@@ -5,35 +5,32 @@ import Header from "../../components/Header";
 import ProfileModal from "../../components/ProfileModal";
 import Resume from "../../components/Resume";
 import Table from "../../components/Table";
-import { loadStatement, loadTransactions } from "../../utils/requests";
+import { loadTransactions } from "../../utils/requests";
 import "./style.css";
 
 function Main() {
   const [openModalProfile, setOpenModalProfile] = useState(false);
   const [openModalAddTransaction, setOpenModalAddTransaction] = useState(false);
   const [transactions, setTransactions] = useState([]);
-  const [statement, setStatement] = useState([{
-    inflow: 0,
-    outflow: 0,
-    balance: 0
-  }]);
+  const [filterApplied, setFilterApplied] = useState(false);
 
   useEffect(() => {
     async function listTransactions() {
       const allTransactions = await loadTransactions();
 
-      setTransactions([...allTransactions]);
-    }
-
-    async function listStatement() {
-      const statement = await loadStatement();
-
-      setStatement(statement);
-    }
+      if (!filterApplied) {
+        setTransactions([...allTransactions]);
+      } else {
+        setFilterApplied(false);
+      }
+    };
 
     listTransactions();
-    listStatement();
-  }, [transactions])
+  }, [filterApplied]);
+
+  function updateTransactions(filteredTransactions) {
+    setTransactions(filteredTransactions);
+  }
 
   return (
     <div className="container-main">
@@ -45,14 +42,17 @@ function Main() {
         <div className="width-limit">
           <div className="container-data">
             <div className="container-left">
-              <Filter />
+              <Filter
+                transactions={transactions}
+                updateTransactions={updateTransactions}
+              />
               <Table
                 transactions={transactions}
+                setTransactions={setTransactions}
               />
             </div>
             <div className="container-right">
               <Resume
-                statement={statement}
                 transactions={transactions}
               />
               <button

@@ -1,15 +1,15 @@
-import "./style.css";
-import EditIcon from "../../assets/edit-icon.svg";
-import DeleteIcon from "../../assets/delete-icon.svg";
+import { useState } from "react";
 import ArrowDown from "../../assets/arrow-down.svg";
 import ArrowUp from "../../assets/arrow-up.svg";
-import { useState } from "react";
+import DeleteIcon from "../../assets/delete-icon.svg";
+import EditIcon from "../../assets/edit-icon.svg";
+import { formatToBRL, formatToDate, formatToWeek } from "../../utils/formatter";
 import Confirm from "../Confirm";
-import { formatToDate, formatToWeek, formatToBRL } from "../../utils/formatter";
+import "./style.css";
 
 function Table({ transactions }) {
   const [asc, setAsc] = useState(true);
-  const [openConfirm, setOpenConfirm] = useState(false)
+  const [openConfirm, setOpenConfirm] = useState(false);
 
   function handleDelete() {
     console.log('delete');

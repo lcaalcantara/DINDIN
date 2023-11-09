@@ -1,7 +1,43 @@
+import { useEffect, useState } from "react";
+import api from "../../services/api";
 import { formatToBRL } from "../../utils/formatter";
+import { getItem } from "../../utils/storage";
 import "./style.css";
 
-function Resume({ statement }) {
+function Resume({ transactions }) {
+
+  const [statement, setStatement] = useState({
+    inflow: 0,
+    outflow: 0,
+    balance: 0
+  });
+
+  const token = getItem('token');
+
+  async function loadStatement() {
+    try {
+      const response = await api.get('/transaction/statement', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const { entrada, saida } = response.data
+
+      setStatement({
+        inflow: formatToBRL(entrada),
+        outflow: formatToBRL(saida),
+        balance: formatToBRL(entrada - saida)
+      });
+
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+
+  useEffect(() => {
+    loadStatement();
+  }, [transactions]);
 
   return (
     <div className="container-resume">
