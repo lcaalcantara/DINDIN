@@ -5,8 +5,9 @@ import ArrowDown from "../../assets/arrow-down.svg";
 import ArrowUp from "../../assets/arrow-up.svg";
 import { useState } from "react";
 import Confirm from "../Confirm";
+import { formateToDate, formateToWeek, formatToBRL } from "../../utils/formatter";
 
-function Table() {
+function Table({ transactions }) {
   const [asc, setAsc] = useState(true);
   const [openConfirm, setOpenConfirm] = useState(false)
 
@@ -34,25 +35,32 @@ function Table() {
       </div>
 
       <div className="table-body">
-        <div className="table-row">
-          <strong className="table-column-s content-date">11/04/2022</strong>
-          <span className="table-column-m">Segunda</span>
-          <span className="table-column-l">Venda de um produto</span>
-          <span className="table-column-s">Vendas</span>
-          <strong className="table-column-s">R$100,00</strong>
-          <div className="table-column-s action-buttons">
-            <img src={EditIcon} alt="edit" />
-            <img
-              src={DeleteIcon}
-              alt="delete"
-              onClick={() => setOpenConfirm(true)}
-            />
+        {transactions.map((transact) => (
+          <div className="table-row" key={transact.id}>
+            <strong className="table-column-s content-date">{formateToDate(transact.data)}</strong>
+            <span className="table-column-m">{formateToWeek(transact.data)}</span>
+            <span className="table-column-l">{transact.descricao}</span>
+            <span className="table-column-s">{transact.categoria_nome}</span>
+            <strong
+              className={`table-column-s ${transact.tipo === 'entrada' ? 'positive' : 'negative'}`}
+            >
+              {formatToBRL(transact.valor)}
+            </strong>
+            <div className="table-column-s action-buttons">
+              <img src={EditIcon} alt="edit" />
+              <img
+                src={DeleteIcon}
+                alt="delete"
+                onClick={() => setOpenConfirm(true)}
+              />
+            </div>
+            <Confirm
+              open={openConfirm}
+              handleClose={() => setOpenConfirm(false)}
+              handleConfirm={handleDelete} />
           </div>
-          <Confirm
-            open={openConfirm}
-            handleClose={() => setOpenConfirm(false)}
-            handleConfirm={handleDelete} />
-        </div>
+        ))}
+
       </div>
     </div>
   );

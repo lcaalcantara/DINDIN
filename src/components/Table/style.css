@@ -71,3 +71,11 @@
 .action-buttons img {
     cursor: pointer;
 }
+
+.positive {
+    color: #7B61FF;
+}
+
+.negative {
+    color: #FA8C10
+}
