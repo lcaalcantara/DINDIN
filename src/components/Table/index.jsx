@@ -10,7 +10,7 @@ import { getItem } from "../../utils/storage";
 import Confirm from "../Confirm";
 import "./style.css";
 
-function Table({ transactions, setTransactions }) {
+function Table({ transactions, setTransactions, setOpenModalEdit, setCurrentItemEdit }) {
   const [asc, setAsc] = useState(true);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [currentItem, setCurrentItem] = useState(null)
@@ -18,7 +18,12 @@ function Table({ transactions, setTransactions }) {
   function handleOpenConfirm(transact) {
     setCurrentItem(transact);
     setOpenConfirm(!openConfirm);
-  }
+  };
+
+  function handleOpenEdit(transact) {
+    setCurrentItemEdit(transact);
+    setOpenModalEdit(true);
+  };
 
   const token = getItem('token');
 
@@ -79,7 +84,11 @@ function Table({ transactions, setTransactions }) {
               {formatToBRL(transact.valor)}
             </strong>
             <div className="table-column-s action-buttons">
-              <img src={EditIcon} alt="edit" />
+              <img
+                src={EditIcon}
+                alt="edit"
+                onClick={() => handleOpenEdit(transact)}
+              />
               <img
                 src={DeleteIcon}
                 alt="delete"
