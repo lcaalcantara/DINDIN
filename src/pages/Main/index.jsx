@@ -1,15 +1,36 @@
-import "./style.css";
-import Header from "../../components/Header";
-import Table from "../../components/Table";
-import Resume from "../../components/Resume";
-import ProfileModal from "../../components/ProfileModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddTransactionModal from "../../components/AddTransactionModal";
 import Filter from "../../components/Filter";
+import Header from "../../components/Header";
+import ProfileModal from "../../components/ProfileModal";
+import Resume from "../../components/Resume";
+import Table from "../../components/Table";
+import { loadTransactions } from "../../utils/requests";
+import "./style.css";
 
 function Main() {
-  const [openModalProfile, setOpenModalProfile] = useState(false)
-  const [openModalAddTransaction, setOpenModalAddTransaction] = useState(false)
+  const [openModalProfile, setOpenModalProfile] = useState(false);
+  const [openModalAddTransaction, setOpenModalAddTransaction] = useState(false);
+  const [transactions, setTransactions] = useState([]);
+  const [filterApplied, setFilterApplied] = useState(false);
+
+  useEffect(() => {
+    async function listTransactions() {
+      const allTransactions = await loadTransactions();
+
+      if (!filterApplied) {
+        setTransactions([...allTransactions]);
+      } else {
+        setFilterApplied(false);
+      }
+    };
+
+    listTransactions();
+  }, [filterApplied]);
+
+  function updateTransactions(filteredTransactions) {
+    setTransactions(filteredTransactions);
+  }
 
   return (
     <div className="container-main">
@@ -21,11 +42,19 @@ function Main() {
         <div className="width-limit">
           <div className="container-data">
             <div className="container-left">
-              <Filter />
-              <Table />
+              <Filter
+                transactions={transactions}
+                updateTransactions={updateTransactions}
+              />
+              <Table
+                transactions={transactions}
+                setTransactions={setTransactions}
+              />
             </div>
             <div className="container-right">
-              <Resume />
+              <Resume
+                transactions={transactions}
+              />
               <button
                 className="btn-purple btn-s"
                 onClick={() => setOpenModalAddTransaction(true)}
@@ -40,6 +69,7 @@ function Main() {
       <AddTransactionModal
         open={openModalAddTransaction}
         handleClose={() => setOpenModalAddTransaction(false)}
+        setTransactions={setTransactions}
       />
 
       <ProfileModal
