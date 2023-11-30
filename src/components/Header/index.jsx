@@ -1,12 +1,13 @@
-import "./style.css";
-import Profile from "../../assets/profile.svg";
+import { useNavigate } from "react-router-dom";
 import Logo from "../../assets/logo.svg";
 import Logout from "../../assets/logout.svg";
-import { useNavigate } from "react-router-dom";
-import { clearStorage } from "../../utils/storage";
+import Profile from "../../assets/profile.svg";
+import { clearStorage, getItem } from "../../utils/storage";
+import "./style.css";
 
 function Header({ handleEditProfile }) {
   const navigate = useNavigate();
+  const userName = getItem('userName')
 
   function handleLogout() {
     clearStorage();
@@ -23,7 +24,7 @@ function Header({ handleEditProfile }) {
             onClick={handleEditProfile}
           >
             <img src={Profile} alt="profile" />
-            <strong>Lucas</strong>
+            <strong>{userName}</strong>
           </div>
           <img
             src={Logout}
