@@ -3,17 +3,54 @@ import ArrowDown from "../../assets/arrow-down.svg";
 import ArrowUp from "../../assets/arrow-up.svg";
 import DeleteIcon from "../../assets/delete-icon.svg";
 import EditIcon from "../../assets/edit-icon.svg";
+import api from "../../services/api";
 import { formatToBRL, formatToDate, formatToWeek } from "../../utils/formatter";
+import { loadTransactions } from "../../utils/requests";
+import { getItem } from "../../utils/storage";
 import Confirm from "../Confirm";
 import "./style.css";
 
-function Table({ transactions }) {
+function Table({ transactions, setTransactions, setOpenModalEdit, setCurrentItemEdit }) {
   const [asc, setAsc] = useState(true);
   const [openConfirm, setOpenConfirm] = useState(false);
+  const [currentItem, setCurrentItem] = useState(null)
 
-  function handleDelete() {
-    console.log('delete');
-    setOpenConfirm(false);
+  function handleOpenConfirm(transact) {
+    setCurrentItem(transact);
+    setOpenConfirm(!openConfirm);
+  };
+
+  function handleOpenEdit(transact) {
+    setCurrentItemEdit(transact);
+    setOpenModalEdit(true);
+  };
+
+  const token = getItem('token');
+
+  async function handleDelete() {
+    try {
+      const response = await api.delete(`/transaction/${currentItem.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
+      if (response.status > 204) {
+        return;
+      };
+
+      const allTransactions = await loadTransactions();
+
+      setTransactions([...allTransactions]);
+
+    } catch (error) {
+      console.log(error.response)
+    }
+
+    finally {
+      setOpenConfirm(false);
+    }
   }
 
   return (
@@ -47,15 +84,19 @@ function Table({ transactions }) {
               {formatToBRL(transact.valor)}
             </strong>
             <div className="table-column-s action-buttons">
-              <img src={EditIcon} alt="edit" />
+              <img
+                src={EditIcon}
+                alt="edit"
+                onClick={() => handleOpenEdit(transact)}
+              />
               <img
                 src={DeleteIcon}
                 alt="delete"
-                onClick={() => setOpenConfirm(true)}
+                onClick={() => handleOpenConfirm(transact)}
               />
             </div>
             <Confirm
-              open={openConfirm}
+              open={openConfirm && transact.id === currentItem.id}
               handleClose={() => setOpenConfirm(false)}
               handleConfirm={handleDelete} />
           </div>

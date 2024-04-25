@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import AddTransactionModal from "../../components/AddTransactionModal";
+import EditTransactionModal from "../../components/EditTransactionModal";
 import Filter from "../../components/Filter";
 import Header from "../../components/Header";
 import ProfileModal from "../../components/ProfileModal";
@@ -11,6 +12,8 @@ import "./style.css";
 function Main() {
   const [openModalProfile, setOpenModalProfile] = useState(false);
   const [openModalAddTransaction, setOpenModalAddTransaction] = useState(false);
+  const [openModalEdit, setOpenModalEdit] = useState(false);
+  const [currentItemEdit, setCurrentItemEdit] = useState(null);
   const [transactions, setTransactions] = useState([]);
   const [filterApplied, setFilterApplied] = useState(false);
 
@@ -49,6 +52,8 @@ function Main() {
               <Table
                 transactions={transactions}
                 setTransactions={setTransactions}
+                setOpenModalEdit={setOpenModalEdit}
+                setCurrentItemEdit={setCurrentItemEdit}
               />
             </div>
             <div className="container-right">
@@ -70,6 +75,13 @@ function Main() {
         open={openModalAddTransaction}
         handleClose={() => setOpenModalAddTransaction(false)}
         setTransactions={setTransactions}
+      />
+
+      <EditTransactionModal
+        open={openModalEdit}
+        setTransactions={setTransactions}
+        handleClose={() => setOpenModalEdit(false)}
+        currentItemEdit={currentItemEdit}
       />
 
       <ProfileModal
